@@ -1,0 +1,24 @@
+.navbar {
+  box-shadow: 0 2px 10px rgba(111, 66, 193, 0.3);
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  color: var(--primary-color) !important;
+}
+
+.nav-link {
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  margin: 0 2px;
+}
+
+.nav-link:hover {
+  background-color: rgba(111, 66, 193, 0.2);
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background-color: var(--primary-color);
+  color: white !important;
+}

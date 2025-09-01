@@ -1,1 +1,43 @@
-<p>navbar works!</p>
+<!-- Updated navbar to use ng-bootstrap ngbCollapse directive -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" routerLink="/home">
+            <i class="bi bi-controller me-2"></i>
+            Play4ever
+        </a>
+
+        <button class="navbar-toggler" type="button" (click)="toggleMenu()" [attr.aria-expanded]="!isMenuCollapsed">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Replaced Bootstrap collapse with ngbCollapse directive -->
+        <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/home" routerLinkActive="active">
+                        <i class="bi bi-house-door me-1"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/about-me" routerLinkActive="active">
+                        <i class="bi bi-person me-1"></i>
+                        Quién Soy
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/login" routerLinkActive="active">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+                        Ingresar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/register" routerLinkActive="active">
+                        <i class="bi bi-person-plus me-1"></i>
+                        Registrarse
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
