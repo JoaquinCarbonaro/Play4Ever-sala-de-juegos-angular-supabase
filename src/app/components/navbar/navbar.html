@@ -1,9 +1,8 @@
 <!-- Updated navbar to use ng-bootstrap ngbCollapse directive -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" routerLink="/home">
-            <i class="bi bi-controller me-2"></i>
-            Play4ever
+        <a class="navbar-brand fw-bold" routerLink="/bienvenida">
+            <img src="\logo.png" alt="Play4ever" height="40" class="d-inline-block align-text-top">
         </a>
 
         <button class="navbar-toggler" type="button" (click)="toggleMenu()" [attr.aria-expanded]="!isMenuCollapsed">
@@ -14,13 +13,13 @@
         <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/home" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/bienvenida" routerLinkActive="active">
                         <i class="bi bi-house-door me-1"></i>
-                        Inicio
+                        Bienvenida
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/about-me" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/sobre-mi" routerLinkActive="active">
                         <i class="bi bi-person me-1"></i>
                         Quién Soy
                     </a>
@@ -32,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/register" routerLinkActive="active">
+                    <a class="nav-link" routerLink="/registro" routerLinkActive="active">
                         <i class="bi bi-person-plus me-1"></i>
                         Registrarse
                     </a>

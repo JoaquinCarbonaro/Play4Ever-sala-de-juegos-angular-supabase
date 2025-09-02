@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+/* Removed Bootstrap CSS imports and replaced with ng-bootstrap styling */
+/* Tema violeta y negro */
+:root {
+  --primary-color: #6f42c1;
+  --secondary-color: #495057;
+  --dark-color: #212529;
+  --light-color: #f8f9fa;
+}
+
+body {
+  background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-color) 100%);
+  min-height: 100vh;
+  color: var(--light-color);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  background: rgba(33, 37, 41, 0.9);
+  border: 1px solid var(--primary-color);
+  backdrop-filter: blur(10px);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: #5a359a;
+  border-color: #5a359a;
+}
+
+.navbar-dark {
+  background-color: rgba(33, 37, 41, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.border-primary {
+  border-color: var(--primary-color) !important;
+}

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-navbar',
-  imports: [NgbModule],
+  imports: [RouterModule, NgbModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
