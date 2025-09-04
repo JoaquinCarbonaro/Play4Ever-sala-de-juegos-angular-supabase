@@ -1,11 +1,14 @@
-footer {
+/*linea superior del footer*/
+.footer {
   border-top: 2px solid var(--primary-color);
 }
 
+/*links dentro del footer*/
 footer a {
   transition: color 0.3s ease;
 }
 
+/*efecto al pasar el mouse sobre el link*/
 footer a:hover {
   color: var(--primary-color) !important;
 }
