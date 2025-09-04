@@ -1,4 +1,4 @@
-/* Tema violeta y negro */
+/*colores principales del tema*/
 :root {
   --primary-color: #6f42c1;
   --secondary-color: #495057;
@@ -6,6 +6,7 @@
   --light-color: #f8f9fa;
 }
 
+/*fondo degradado de toda la pagina*/
 body {
   background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-color) 100%);
   min-height: 100vh;
@@ -13,37 +14,42 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/*tarjetas con fondo semi transparente y borde violeta*/
 .card {
   background: rgba(33, 37, 41, 0.9);
   border: 1px solid var(--primary-color);
   backdrop-filter: blur(10px);
 }
 
+/*botones principales*/
 .btn-primary {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
 
+/*hover en botones principales*/
 .btn-primary:hover {
   background-color: #5a359a;
   border-color: #5a359a;
 }
 
+/*navbar con fondo transparente*/
 .navbar-dark {
   background-color: rgba(33, 37, 41, 0.95) !important;
   backdrop-filter: blur(10px);
 }
 
+/*texto destacado en violeta*/
 .text-primary {
   color: var(--primary-color) !important;
 }
 
+/*bordes violetas*/
 .border-primary {
   border-color: var(--primary-color) !important;
 }
 
-/* Corrige textos que se ven apagados en fondo oscuro */
+/*texto gris claro para buena visibilidad*/
 .text-muted {
-  color: #e0e0e0 !important;  /* gris claro en lugar de gris oscuro */
+  color: #e0e0e0 !important;
 }
-

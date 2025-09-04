@@ -1,4 +1,4 @@
-/* Estilos específicos del componente principal */
+/*alto minimo de la vista para ocupar toda la ventana*/
 .min-vh-100 {
   min-height: 100vh;
 }

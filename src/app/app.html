@@ -1,9 +1,14 @@
+<!-- contenedor a pantalla completa con layout en columna -->
 <div class="min-vh-100 d-flex flex-column">
+  <!-- navbar -->
   <app-navbar></app-navbar>
   
+  <!-- area principal (donde se renderizan las rutas) -->
   <main class="flex-grow-1">
+  <!-- responsive el main crece para ocupar el espacio disponible -->
     <router-outlet></router-outlet>
   </main>
   
+  <!-- footer -->
   <app-footer></app-footer>
 </div>
