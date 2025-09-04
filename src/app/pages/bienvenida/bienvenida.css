@@ -1,29 +1,34 @@
+/*tarjeta de los juegos*/
 .game-card {
   transition: all 0.3s ease;
   border: 2px solid transparent;
 }
 
+/*efecto hover cuando el juego esta habilitado*/
 .game-card:hover:not(.disabled) {
   transform: translateY(-5px);
   border-color: var(--primary-color);
   box-shadow: 0 10px 25px rgba(111, 66, 193, 0.3);
 }
 
+/*tarjeta deshabilitada*/
 .game-card.disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
+/*evita efecto hover en tarjetas deshabilitadas*/
 .game-card.disabled:hover {
   transform: none;
 }
 
+/*titulo principal*/
 .display-4 {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/*botones grandes*/
 .btn-lg {
   padding: 12px 30px;
   font-size: 1.1rem;
 }
-

@@ -1,19 +1,24 @@
 <div class="container mt-5 pt-5">
-  <!-- Hero Section -->
+  <!-- titulo y botones -->
   <div class="row mb-5">
     <div class="col-12 text-center">
+      <!-- titulo -->
       <h1 class="display-4 fw-bold text-primary mb-3">
         <i class="bi bi-controller me-3"></i>
         Bienvenido a <span class="text-light">Play4Ever</span>
       </h1>
+      <!-- subtitulo -->
       <p class="lead text-light mb-4">
         La sala de juegos online donde la diversión dura <strong>para siempre</strong>.
       </p>
+      <!-- botones principales -->
       <div class="d-flex justify-content-center gap-3">
+        <!-- boton login -->
         <a routerLink="/login" class="btn btn-primary btn-lg">
           <i class="bi bi-play-circle me-2"></i>
           Comenzar a Jugar
         </a>
+        <!-- boton sobre mi -->
         <a routerLink="/sobre-mi" class="btn btn-outline-light btn-lg">
           <i class="bi bi-person me-2"></i>
           Conocer al Desarrollador
@@ -22,33 +27,49 @@
     </div>
   </div>
 
-  <!-- Juegos Disponibles -->
+  <!-- seccion de juegos -->
   <div class="row mb-5">
     <div class="col-12">
-      <h2 class="text-center mb-4 text-primary">Juegos de Play4Ever</h2>
-      <p class="text-center text-light mb-4">
+      <!-- titulo de juegos -->
+      <h1 class="text-center display-4 fw-bold text-primary mb-3">
+        Juegos
+      </h1>
+      <p class="text-center lead text-light mb-4">
         Descubre los clásicos y desafíos exclusivos que forman parte de nuestra sala.
       </p>
+
       <div class="row g-4">
+        <!-- recorro la lista de juegos -->
         <div class="col-md-6 col-lg-3" *ngFor="let juego of juegos">
+          <!-- responsive col-md-6 ocupa media fila en medianas, col-lg-3 un cuarto en grandes -->
+
           <div class="card h-100 game-card" [class.disabled]="!juego.disponible">
-            <div class="card-body text-center lead text-muted mb-3">
+            <div class="card-body text-center">
+              <!-- icono del juego -->
               <i class="{{juego.icono}} display-4 text-primary mb-3"></i>
-              <h5 class="card-title">{{juego.nombre}}</h5>
-              <p class="card-text">{{juego.descripcion}}</p>
+
+              <!-- nombre del juego -->
+              <h5 class="card-title"><span class="text-light">{{ juego.nombre }}</span></h5>
+
+              <!-- descripcion -->
+              <p class="card-text text-muted">{{ juego.descripcion }}</p>
+
               <div class="mt-auto">
+                <!-- si el juego no esta disponible muestro sprint -->
                 <span *ngIf="!juego.disponible" class="badge bg-secondary">
-                  Sprint {{juego.sprint}}
+                  Sprint {{ juego.sprint }}
                 </span>
+                <!-- si esta disponible muestro boton de jugar -->
                 <button *ngIf="juego.disponible" class="btn btn-primary">
                   Jugar
                 </button>
               </div>
             </div>
           </div>
+
         </div>
       </div>
+
     </div>
   </div>
-
 </div>
