@@ -4,31 +4,64 @@
   border: 2px solid transparent;
 }
 
-/*efecto hover cuando el juego esta habilitado*/
+/*efecto hover solo en tarjetas habilitadas*/
 .game-card:hover:not(.disabled) {
   transform: translateY(-5px);
   border-color: var(--primary-color);
   box-shadow: 0 10px 25px rgba(111, 66, 193, 0.3);
 }
 
-/*tarjeta deshabilitada*/
+/*tarjeta deshabilitada sin interaccion*/
 .game-card.disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/*evita efecto hover en tarjetas deshabilitadas*/
-.game-card.disabled:hover {
-  transform: none;
-}
-
-/*titulo principal*/
-.display-4 {
+/*titulos principales con sombra ligera*/
+h1.display-4,
+.hero-title {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/*botones grandes*/
+/*ajuste de botones grandes*/
 .btn-lg {
   padding: 12px 30px;
   font-size: 1.1rem;
+}
+
+/*hero section define tamaño responsivo compartido*/
+.hero-section {
+  --hero-fs: clamp(2rem, 4vw + 0.5rem, 4rem);
+}
+
+/*titulo hero usa la variable de tamaño*/
+.hero-title {
+  font-size: var(--hero-fs);
+  line-height: 1.2;
+}
+
+/*contenedor decorativo en forma de pastilla*/
+.wordmark-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(111, 66, 193, 0.25);
+}
+
+/*logo escala en relacion al tamaño del titulo*/
+.logo-block {
+  height: calc(var(--hero-fs) * 2.5);
+  width: auto;
+  display: block;
+}
+
+/*responsive en pantallas muy chicas ajusto paddings*/
+@media (max-width: 360px) {
+  .wordmark-pill {
+    padding: 0.3rem 0.8rem;
+  }
 }
