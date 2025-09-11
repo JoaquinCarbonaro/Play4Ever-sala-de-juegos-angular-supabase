@@ -46,7 +46,7 @@
   border-color: var(--primary-color);
 }
 
-/*responsive ajustes opcionales en pantallas chicas*/
+/*responsive: ajustes opcionales en pantallas chicas*/
 @media (max-width: 767.98px) {
   /*achico imagen para que no ocupe todo el ancho*/
   .profile-img {

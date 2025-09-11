@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { Subscription } from 'rxjs'
-//importo el servicio de github y el environment
 import { Github, GithubUser } from '../../services/github'
 
 @Component({

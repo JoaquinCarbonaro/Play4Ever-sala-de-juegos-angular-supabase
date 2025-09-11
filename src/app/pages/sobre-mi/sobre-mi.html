@@ -1,8 +1,7 @@
-<!-- contenedor principal -->
 <div class="container mt-5 pt-5">
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <!-- estado cargando -->
+      <!--estado cargando-->
       @if (loading) {
         <div class="text-center">
           <div class="spinner-border text-primary" role="status">
@@ -12,21 +11,21 @@
         </div>
       }
       @else if (!loading && error) {
-        <!-- estado error -->
+        <!--estado error-->
         <div class="alert alert-warning text-center">
           <i class="bi bi-exclamation-triangle me-2"></i>
           No se pudo cargar la información de GitHub
         </div>
       }
       @else if (!loading && !error && githubData) {
-        <!-- contenido principal -->
+        <!--contenido principal-->
         <div class="card shadow-lg">
           <div class="card-body p-5">
 
-            <!-- cabecera con avatar y datos -->
+            <!--cabecera con avatar y datos-->
             <div class="row align-items-center mb-4">
               <div class="col-md-4 text-center">
-                <!-- imagen de perfil -->
+                <!--imagen de perfil-->
                 @if (githubData.avatar_url) {
                   <img
                     [src]="githubData.avatar_url"
@@ -35,7 +34,7 @@
                 }
               </div>
 
-              <!-- datos principales -->
+              <!--datos principales-->
               <div class="col-md-8">
                 <h1 class="text-primary mb-2">
                   {{ githubData.name }}
@@ -45,7 +44,7 @@
                   {{ githubData.bio }}
                 </p>
 
-                <!-- links y ubicacion -->
+                <!--links y ubicacion-->
                 <div class="d-flex flex-wrap gap-2">
                   @if (githubData.html_url) {
                     <a
@@ -68,7 +67,7 @@
               </div>
             </div>
 
-            <!-- estadisticas -->
+            <!--estadisticas-->
             <div class="row text-center mb-4">
               <div class="col-md-4">
                 <div class="stat-card">
@@ -95,10 +94,10 @@
               </div>
             </div>
 
-            <!-- sobre mi -->
+            <!--sobre mi-->
             <div class="row">
               <div class="col-12">
-                <!-- descripcion breve -->
+                <!--descripcion breve-->
                 <h3 class="text-center text-primary mb-3">
                   <i class="bi bi-person-circle me-2"></i>
                   Sobre Mí
@@ -109,7 +108,7 @@
                   apasionado por el desarrollo de software y las tecnologías
                 </p>
 
-                <!-- juego propio -->
+                <!--juego propio-->
                 <h3 class="text-center text-primary mb-3">
                   <i class="bi bi-person-circle me-2"></i>
                   Juego propio
@@ -125,7 +124,7 @@
                   estados, detección de patrones en una grilla y posible integración de una IA sencilla a futuro
                 </p>
 
-                <!-- como se juega -->
+                <!--como se juega-->
                 <h4 class="text-primary mb-3">
                   <i class="bi bi-joystick me-2"></i>
                   <span class="text-light">Cómo se juega</span>
@@ -137,7 +136,7 @@
                   vertical o diagonal. Si se llena el tablero sin una conexión válida, es empate
                 </p>
 
-                <!-- objetivo -->
+                <!--objetivo-->
                 <h4 class="text-primary mb-3">
                   <i class="bi bi-bullseye me-2"></i>
                   <span class="text-light">Objetivo del jugador</span>
@@ -147,7 +146,7 @@
                   Colocar estratégicamente las fichas para armar una línea de 4 y, al mismo tiempo, bloquear los intentos del rival
                 </p>
 
-                <!-- fecha miembro de github -->
+                <!--fecha miembro de github-->
                 @if (githubData.created_at) {
                   <div class="text-center mt-4">
                     <p class="text-muted">
