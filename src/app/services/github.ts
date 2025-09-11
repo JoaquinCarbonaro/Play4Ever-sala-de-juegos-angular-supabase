@@ -1,8 +1,5 @@
-//importo lo necesario de angular
 import { inject, Injectable } from '@angular/core'
-//importo http client y headers
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-//importo environment para no hardcodear urls ni username
 import { environment } from '../../environments/environment'
 import { Observable } from 'rxjs';
 
