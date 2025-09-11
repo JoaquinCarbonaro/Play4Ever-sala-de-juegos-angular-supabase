@@ -43,6 +43,21 @@ export class Auth {
 
   //====================================================================
 
+  //detecta mensajes de Supabase para email duplicado
+  private isEmailAlreadyRegistered(err: any): boolean {
+    const msg = (err?.message || '').toLowerCase()
+    return (
+      err?.status === 422 || //usa 422 en "User already registered"
+      msg.includes('already registered') ||
+      msg.includes('already exists') ||
+      msg.includes('user already') ||
+      msg.includes('email address is already') ||
+      msg.includes('registered')
+    )
+  }
+
+  //====================================================================
+
   //registro
   async register(userData: {
     email: string
@@ -54,9 +69,25 @@ export class Auth {
     //mando la info para crear la cuenta
     const respuesta = await this.sb.signUp(userData)
 
-    //si hay error muestro modal simple
+    //si hay error muestro modal
     if (respuesta.error) {
-      Swal.fire({ title: 'Algo salió mal', icon: 'error', text: 'Revisá los datos' })
+      if (this.isEmailAlreadyRegistered(respuesta.error)) {
+        //modal para email ya registrado
+        Swal.fire({
+          icon: 'info',
+          title: 'Correo ya registrado',
+          text: 'Ese email ya tiene una cuenta. Probá iniciar sesión.',
+          confirmButtonText: 'OK',
+        })
+      } else {
+        //resto de errores: generico + mensaje real (si viene)
+        Swal.fire({
+          icon: 'error',
+          title: 'Algo salió mal',
+          text: respuesta.error?.message || 'Revisá los datos',
+          confirmButtonText: 'OK',
+        })
+      }
       this.currentUserSubject.next(null)
       return { error: respuesta.error }
     }
