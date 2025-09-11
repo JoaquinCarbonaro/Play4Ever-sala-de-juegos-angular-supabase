@@ -1,24 +1,47 @@
-import { Component } from "@angular/core"
-import { RouterModule } from "@angular/router"
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap"
+import { Component, inject } from '@angular/core'
+import { Router, RouterModule } from '@angular/router'
+import { AsyncPipe  } from '@angular/common'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { Auth } from '../../services/auth'
+import { Observable } from 'rxjs'
+import { Usuario } from '../../classes/usuario'
 
 @Component({
-  selector: "app-navbar",
-  imports: [RouterModule, NgbModule],
-  templateUrl: "./navbar.html",
-  styleUrl: "./navbar.css",
+  selector: 'app-navbar',
+  imports: [RouterModule, AsyncPipe , NgbModule], //AsyncPipe para no tener que suscribirme manualmente al observable
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.css',
 })
 export class Navbar {
-  //guarda estado del menu (cerrado o abierto)
+  //guardo el estado del menu (cerrado o abierto)
   isMenuCollapsed = true
 
-  //abre o cierra el menu cuando toco el boton
+  //guardo observable del usuario actual
+  usuario$: Observable<Usuario | null>
+
+  //inyecto auth y router
+  private readonly auth = inject(Auth)
+  private readonly router = inject(Router)
+
+  constructor() {
+    //asigno observable de usuario desde auth
+    this.usuario$ = this.auth.currentUser$
+  }
+
+  //cambia el estado del menu cuando toco el boton
   toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed
   }
 
-  //metodo para cerrar el menu al cambiar de pagina
+  //cierra el menu cuando navego a otra pagina
   closeMenu() {
-    this.isMenuCollapsed = true;
+    this.isMenuCollapsed = true
+  }
+
+  //cierra sesion y redirige a bienvenida
+  logout() {
+    this.auth.logout()
+    this.closeMenu()
+    this.router.navigate(['/bienvenida'])
   }
 }

@@ -27,3 +27,25 @@
   background-color: var(--primary-color);
   color: white !important;
 }
+
+/*chip del nombre (pastilla) con mismo tamaño que los .nav-link*/
+.user-chip {
+  font-size: 1rem;           
+  font-weight: 500;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.375rem 0.75rem;   
+  border-radius: 999px;        
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.25;
+}
+
+/*separacion visual respecto al boton anterior y siguiente*/
+.navbar .nav-item.ms-3 { margin-left: 1rem !important; }
+
+/*boton salir con misma altura que el chip */
+.btn-logout {
+  padding: 0.375rem 0.6rem;
+  line-height: 1.2;
+}

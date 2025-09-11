@@ -1,55 +1,72 @@
-<!-- barra de navegacion principal -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-<!-- responsive: la clase navbar-expand-lg hace que se muestre expandida en pantallas grandes (>=992px) y en celulares se colapse -->
+  <!--responsive: desde 992px se muestra expandida, en celular se colapsa-->
+  <div class="container">
+    <!--logo-->
+    <a class="navbar-brand fw-bold" routerLink="/bienvenida" (click)="closeMenu()">
+      <img src="/logo.png" alt="Play4ever" height="50" class="d-inline-block align-text-top" />
+    </a>
 
-    <div class="container">
-        <!-- logo de la aplicacion -->
-        <a class="navbar-brand fw-bold" routerLink="/bienvenida">
-            <img src="\logo.png" alt="Play4ever" height="50" class="d-inline-block align-text-top">
-        </a>
 
-        <!-- boton para abrir menu en celular -->
-        <button class="navbar-toggler" type="button" (click)="toggleMenu()" [attr.aria-expanded]="!isMenuCollapsed">
-        <!-- responsive: este boton aparece solo cuando la barra esta colapsada en pantallas chicas -->
+    <!--boton hamburguesa para abrir menu en celular-->
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" [attr.aria-expanded]="!isMenuCollapsed">
+      <!--responsive: este boton solo aparece cuando la barra esta colapsada-->
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <!--contenedor de items-->
+    <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
+      <!--responsive: ngbCollapse abre o cierra el menu segun tamaño o si toco el boton-->
 
-        <!-- contenedor del menu -->
-        <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
-        <!-- responsive: usa [ngbCollapse] para abrir o cerrar el menu segun el tamaño y si toco el boton -->
+      <!--lista de links-->
+      <ul class="navbar-nav ms-auto">
+        <!--bienvenida-->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bienvenida" routerLinkActive="active" (click)="closeMenu()">
+            <i class="bi bi-house-door me-1"></i>
+            Bienvenida
+          </a>
+        </li>
 
-            <!-- lista de links del menu -->
-            <ul class="navbar-nav ms-auto">
-                <!-- link bienvenida -->
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/bienvenida" routerLinkActive="active" (click)="closeMenu()">
-                        <i class="bi bi-house-door me-1"></i>
-                        Bienvenida
-                    </a>
-                </li>
-                <!-- link sobre mi -->
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/sobre-mi" routerLinkActive="active" (click)="closeMenu()">
-                        <i class="bi bi-person me-1"></i>
-                        Quién Soy
-                    </a>
-                </li>
-                <!-- link login -->
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>
-                        Ingresar
-                    </a>
-                </li>
-                <!-- link registrarse -->
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/registro" routerLinkActive="active" (click)="closeMenu()">
-                        <i class="bi bi-person-plus me-1"></i>
-                        Registrarse
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <!--sobre mi-->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/sobre-mi" routerLinkActive="active" (click)="closeMenu()">
+            <i class="bi bi-person me-1"></i>
+            Quién Soy
+          </a>
+        </li>
+
+        <!--autenticacion-->
+        <!--si hay usuario logueado, muestra nombre y boton salir-->
+        @if (usuario$ | async; as user) {
+        <li class="nav-item d-flex align-items-center">
+          <!--nombre de usuario-->
+          <span class="user-chip">
+            <i class="bi bi-person me-1"></i>
+            {{ user?.nombre || user?.email }}
+          </span>
+          <!--cerrar sesion-->
+          <button class="btn btn-outline-light btn-logout ms-2" (click)="logout()" aria-label="Cerrar sesión">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </li>
+        } @else {
+        <!--si no hay usuario logeado, muestra links de login y registro-->
+        <!--login-->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">
+            <i class="bi bi-box-arrow-in-right me-1"></i>
+            Ingresar
+          </a>
+        </li>
+        <!--registro-->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/registro" routerLinkActive="active" (click)="closeMenu()">
+            <i class="bi bi-person-plus me-1"></i>
+            Registrarse
+          </a>
+        </li>
+        }
+      </ul>
     </div>
+  </div>
 </nav>
