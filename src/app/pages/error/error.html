@@ -1,1 +1,54 @@
-<p>error works!</p>
+<div class="container mt-5 pt-5 error-section">
+  <!--fila centrada horizontal-->
+  <div class="row justify-content-center">
+
+    <div class="col-md-8 col-lg-6">
+    <!--responsive: en md ocupa 8 de 12 y en lg 6 de 12-->
+    
+      <!--tarjeta principal de error-->
+      <div class="card error-card text-center">
+
+        <!--cuerpo de la tarjeta con padding grande-->
+        <div class="card-body p-5">
+
+          <!--icono de advertencia-->
+          <i class="bi bi-exclamation-triangle display-1 text-primary mb-4"></i>
+          
+          <!--titulo de error-->
+          <h1 class="error-title fw-bold text-primary mb-3">
+            ¡Oops! Página no encontrada
+          </h1>
+          
+          <!--codigo de error 404-->
+          <div class="error-code mb-4">
+            <span class="badge bg-primary fs-4 px-4 py-2">404</span>
+          </div>
+          
+          <!--mensaje principal-->
+          <p class="lead text-light mb-4">
+            La página que estás buscando no existe o ha sido movida.
+          </p>
+          
+          <!--mensaje secundario-->
+          <p class="text-muted mb-4">
+            No te preocupes, puedes regresar a la página principal y continuar explorando nuestra sala de juegos.
+          </p>
+          
+          <!--contenedor de acciones-->
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <!--responsive: en mobile los botones pasan a columna y ocupan ancho completo-->
+
+            <!--boton para volver al inicio-->
+            <a routerLink="/bienvenida" class="btn btn-primary btn-lg">
+              <i class="bi bi-house-door me-2"></i>
+              Ir al Inicio
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

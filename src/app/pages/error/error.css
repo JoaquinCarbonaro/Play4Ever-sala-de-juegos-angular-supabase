@@ -1,0 +1,73 @@
+/*seccion error ocupa toda la pantalla menos navbar y footer*/
+.error-section{
+  min-height: calc(100vh - var(--navbar-h) - var(--footer-h));
+  display:flex;
+  align-items:center;      /*centra vertical*/
+  justify-content:center;  /*centra horizontal*/
+  margin-top:0;            /*saco el mt-5 del container*/
+  padding-top:0;           /*saco el pt-5 del container*/
+}
+
+/*tarjeta error con efecto vidrio*/
+.error-card {
+  transition: all 0.3s ease;
+  border: 2px solid var(--primary-color);
+  background: rgba(33, 37, 41, 0.95);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 35px rgba(111, 66, 193, 0.3);
+}
+
+/*efecto hover sutil en la tarjeta*/
+.error-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(111, 66, 193, 0.4);
+}
+
+/*titulo error con sombra*/
+.error-title {
+  font-size: clamp(1.8rem, 4vw + 0.5rem, 2.5rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+/*estilo para el badge del codigo error*/
+.error-code .badge {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/*estilo general de botones grandes*/
+.btn-lg {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+/*efecto hover en boton grande*/
+.btn-lg:hover {
+  transform: translateY(-2px);
+}
+
+/*ajustes responsive en pantallas chicas*/
+@media (max-width: 576px) {
+  /*error section mas chica en mobile*/
+  .error-section {
+    min-height: 70vh;
+  }
+
+  /*achico padding de la card*/
+  .card-body {
+    padding: 2rem !important;
+  }
+
+  /*botones en columna cuando hay poco ancho*/
+  .d-flex.gap-3 {
+    flex-direction: column;
+  }
+
+  /*botones ocupan todo el ancho en mobile*/
+  .btn-lg {
+    width: 100%;
+  }
+}
