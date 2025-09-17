@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { Github, GithubUser } from '../../services/github'
+import { Github } from '../../services/github'
+import { GithubUser } from '../../interface/github-user'
 
 @Component({
   selector: 'app-sobre-mi',

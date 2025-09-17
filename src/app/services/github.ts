@@ -2,21 +2,7 @@ import { inject, Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../environments/environment'
 import { Observable } from 'rxjs';
-
-//interface con los datos que trae github
-export interface GithubUser {
-  login: string;
-  name: string;
-  avatar_url: string;
-  bio: string | null;
-  html_url: string;
-  location?: string | null;
-  blog?: string | null;
-  public_repos?: number;
-  followers?: number;
-  following?: number;
-  created_at?: string;
-}
+import { GithubUser } from '../interface/github-user'
 
 @Injectable({ providedIn: 'root' })
 export class Github {
