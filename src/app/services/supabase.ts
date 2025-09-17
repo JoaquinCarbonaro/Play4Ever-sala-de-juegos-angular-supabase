@@ -4,12 +4,31 @@ import { environment } from '../../environments/environment'
 
 @Injectable({ providedIn: 'root' })
 export class Supabase {
+
   //instancia del cliente de supabase
   private supabase: SupabaseClient
 
+  //====================================================================
+  
   constructor() {
+
+    //elige storage de sesion solo si existe window en navegador
+    //si no hay window queda undefined (evita error en ssr o tests)
+    const authStorage = typeof window !== 'undefined' ? window.sessionStorage : undefined
+
     //creo el cliente con la url y la key del environment
-    this.supabase = createClient(environment.supabaseUrl || "", environment.supabaseKey || "")
+    this.supabase = createClient(
+      environment.supabaseUrl || '',
+      environment.supabaseKey || '',
+      {
+        auth: {
+          //auth usa persistencia y refresco automatico de tokens
+          persistSession: true, //guarda la sesion para rehidratar despues
+          autoRefreshToken: true, //renueva los tokens cuando caducan
+          ...(authStorage ? { storage: authStorage } : {}), //si existe authStorage lo usa como storage de sesion
+        },
+      }
+    )
   }
 
   //====================================================================
