@@ -12,28 +12,27 @@ export class Supabase {
   
   constructor() {
 
-    //elige storage de sesion solo si existe window en navegador
-    //si no hay window queda undefined (evita error en ssr o tests)
+    //elige storage de sesion si existe window -> cierra sesion al cerrar ventana
     const authStorage = typeof window !== 'undefined' ? window.sessionStorage : undefined
 
-    //creo el cliente con la url y la key del environment
+    //creo cliente con url y key del environment
     this.supabase = createClient(
       environment.supabaseUrl || '',
       environment.supabaseKey || '',
       {
         auth: {
-          //auth usa persistencia y refresco automatico de tokens
-          persistSession: true, //guarda la sesion para rehidratar despues
-          autoRefreshToken: true, //renueva los tokens cuando caducan
-          ...(authStorage ? { storage: authStorage } : {}), //si existe authStorage lo usa como storage de sesion
+          persistSession: true, //guarda sesion
+          autoRefreshToken: true, //renueva tokens
+          ...(authStorage ? { storage: authStorage } : {}), //usa sessionStorage del navegador
         },
       }
     )
+
   }
 
   //====================================================================
 
-  //expongo el cliente para que lo usen otros servicios
+  //expongo cliente
   get client() {
     return this.supabase
   }
@@ -50,9 +49,9 @@ export class Supabase {
       return { data: null, error: respuesta.error }
     }
 
-    //guardo datos extra en tabla usuarios
+    //guardo datos extra en tabla usuarios usando el mismo uuid de auth
     await this.supabase.from('usuarios').insert({
-      id: respuesta.data.user?.id,
+      id: respuesta.data.user?.id, //mismo uuid que auth
       email: data.email,
       nombre: data.nombre,
       apellido: data.apellido,
