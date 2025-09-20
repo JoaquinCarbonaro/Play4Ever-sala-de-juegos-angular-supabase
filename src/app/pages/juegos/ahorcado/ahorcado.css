@@ -266,6 +266,14 @@
   gap: 1rem;
 }
 
+/*imagen y palabra en la pantalla final*/
+.hangman__summary-figure{display:flex;justify-content:center;}
+.hangman__summary-figure img{
+  width:min(260px,70vw);max-width:100%;height:auto;object-fit:contain;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,.45));margin:.25rem auto .5rem;
+}
+.hangman__lost-word{text-align:center;color:#e5e9ff;font-weight:600;}
+
 /*enlace estilo boton*/
 .hangman__link {
   display: inline-block;

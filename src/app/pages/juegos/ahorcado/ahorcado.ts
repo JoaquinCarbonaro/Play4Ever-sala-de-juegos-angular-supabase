@@ -61,6 +61,9 @@ export class Ahorcado implements OnInit, OnDestroy {
   completedWords = signal(0) //contador de palabras resueltas en la sesion
   elapsedSeconds = signal(0) //tiempo transcurrido en segundos
   lastSolvedWord = signal('') //ultima palabra resuelta para mostrar como feedback
+  finalWord = signal('') //palabra de la ronda al finalizar (vidas o tiempo)
+
+
 
   //estado global del juego
   gameStatus = signal<'idle' | 'playing' | 'sessionOutOfLives' | 'sessionTimeUp'>('idle')
@@ -352,6 +355,7 @@ export class Ahorcado implements OnInit, OnDestroy {
     this.sessionRunning = false
     this.gameStatus.set('idle')
     this.usedWordsSet.clear()
+    this.finalWord.set('')
   }
 
   //====================================================================
@@ -369,9 +373,11 @@ export class Ahorcado implements OnInit, OnDestroy {
 
   //finaliza la sesion por vidas o por tiempo y guarda en base
   private async finishSession(reason: 'lives' | 'time') {
-    if (this.gameStatus() === 'sessionOutOfLives' || this.gameStatus() === 'sessionTimeUp') {
-      return
-    }
+    if (this.gameStatus() === 'sessionOutOfLives' || this.gameStatus() === 'sessionTimeUp') return
+
+    //guardo siempre la palabra que estaba en juego
+    this.finalWord.set(this.spanishWord())
+
     this.gameStatus.set(reason === 'lives' ? 'sessionOutOfLives' : 'sessionTimeUp')
     this.stopTimer()
     this.sessionRunning = false
