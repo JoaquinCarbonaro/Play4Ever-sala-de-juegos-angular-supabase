@@ -127,12 +127,23 @@
   gap: 1rem;
 }
 
-/*mensaje de feedback*/
+/*mensaje principal de feedback*/
 .mayor-menor__feedback {
   text-align: center;
   color: #ffd86b;
   font-weight: 600;
+  margin-bottom: 0.25rem;
 }
+
+/*detalle debajo del feedback*/
+.mayor-menor__feedback--detail {
+  text-align: center;
+  color: #e5e9ff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
 
 /*resumen final*/
 .mayor-menor__summary {

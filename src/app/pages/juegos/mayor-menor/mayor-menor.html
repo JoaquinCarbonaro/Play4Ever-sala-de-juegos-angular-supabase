@@ -67,8 +67,14 @@
   </div>
 
   @if (feedback()) {
-  <!--mensaje con resultado de la ronda-->
+  <!--mensaje con resultado-->
   <p class="mayor-menor__feedback">{{ feedback() }}</p>
+  }
+
+  @if (feedbackDetail()) {
+  <p class="mayor-menor__feedback mayor-menor__feedback--detail">
+    {{ feedbackDetail() }}
+  </p>
   }
 
   } @else {

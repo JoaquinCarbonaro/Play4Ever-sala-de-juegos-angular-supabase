@@ -33,7 +33,6 @@ export class MayorMenor implements OnDestroy {
   
   readonly currentCard = signal<CardData | null>(null) //carta visible para el jugador
   readonly nextCard = signal<CardData | null>(null) //carta que se usara en la siguiente ronda
-  readonly feedback = signal('') //mensaje de retroalimentacion
   readonly loading = signal(false) //bandera de carga para bloquear botones
   readonly hits = signal(0) //contador de aciertos
   readonly fails = signal(0) //contador de errores
@@ -42,6 +41,10 @@ export class MayorMenor implements OnDestroy {
   readonly currentCardLabel = signal('') //nombre traducido de la carta actual
   readonly maxLives = 6 //vidas maximas de la partida
   readonly maxTimeSeconds = 180 //tiempo maximo de la partida en segundos
+
+  //mensaje de retroalimentacion
+  readonly feedback = signal('') //mensaje principal
+  readonly feedbackDetail = signal('') //mensaje de detalle debajo del principal
 
   //calcula vidas restantes segun errores
   readonly remainingLives = computed(() => {
@@ -91,6 +94,7 @@ export class MayorMenor implements OnDestroy {
     this.stopTimer()
     this.resultSaved = false
     this.feedback.set('')
+    this.feedbackDetail.set('')
     this.hits.set(0)
     this.fails.set(0)
     this.elapsedSeconds.set(0)
@@ -153,7 +157,13 @@ export class MayorMenor implements OnDestroy {
 
       //si empatan muevo la ventana y robo otra
       if (currentValue === nextValue) {
-        this.feedback.set('Salio una carta del mismo valor. Se roba otra del mazo.')
+        const prevLabel = await this.getCardDisplayName(current) //traigo nombre completo traducido
+
+        this.feedback.set('Salió una carta del mismo valor.')
+        this.feedbackDetail.set(
+          `La carta anterior era: ${prevLabel} → no suma acierto ni baja vida.`
+        )
+
         this.currentCard.set(next)
         await this.updateCurrentCardLabel(next)
         const replacement = await this.cardsApi.drawCard()
@@ -166,17 +176,19 @@ export class MayorMenor implements OnDestroy {
       const isHigher = nextValue > currentValue
       const isCorrect = option === 'higher' ? isHigher : !isHigher
 
-      //obtengo nombre traducido por si se necesita mostrar mas info luego
-      const translatedName = await this.getCardDisplayName(next)
+      //traigo valor de la carta anterior
+      const prevLabel = await this.getCardDisplayName(current)
 
-      //actualizo aciertos o errores y feedback
       if (isCorrect) {
         this.hits.set(this.hits() + 1)
-        this.feedback.set(`Acertaste.`)
+        this.feedback.set('Acertaste.')
+        this.feedbackDetail.set(`La carta anterior era: ${prevLabel}`)
       } else {
         this.fails.set(this.fails() + 1)
-        this.feedback.set(`Fallaste.`)
+        this.feedback.set('Fallaste.')
+        this.feedbackDetail.set(`La carta anterior era: ${prevLabel}`)
       }
+
 
       //avanzo ventana de cartas
       this.currentCard.set(next)
