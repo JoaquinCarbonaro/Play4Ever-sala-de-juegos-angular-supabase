@@ -3,7 +3,6 @@
   <!--titulos y botones principales-->
   <div class="row mb-5">
     <div class="col-12 text-center">
-
       <!--titulo-->
       <h1 class="hero-title fw-bold text-primary mb-2">
         <i class="bi bi-controller me-2"></i>
@@ -22,14 +21,14 @@
         La sala de juegos online donde la diversión dura <strong>para siempre</strong>.
       </p>
 
-      <!--mensaje, si hay usuario logueado-->
+      <!--mensaje si hay usuario-->
       @if (usuario$ | async; as user) {
         <h1 class="hero-title fw-bold text-primary mb-2">
           <span class="text-muted">¡Qué bueno verte otra vez, {{ user?.nombre }}!</span>
         </h1>
       }
 
-      <!--botones login y registro, si no hay usuario-->
+      <!--botones login/registro si no hay usuario-->
       @if (!(usuario$ | async)) {
         <div class="d-flex justify-content-center gap-3">
           <a routerLink="/login" class="btn btn-primary btn-lg">
@@ -45,57 +44,38 @@
     </div>
   </div>
 
-  <!--seccion de juegos-->
+  <!--seccion de juegos (solo cards informativas)-->
   @if (usuario$ | async) {
     <div class="row mb-5">
       <div class="col-12">
-        <!--titulo de juegos-->
-        <h1 class="text-center display-4 fw-bold text-primary mb-3">
-          Juegos
-        </h1>
+        <h1 class="text-center display-4 fw-bold text-primary mb-3">Juegos</h1>
         <p class="text-center lead text-light mb-4">
           Descubre los clásicos y desafíos exclusivos que forman parte de nuestra sala.
         </p>
 
         <!--grilla de juegos-->
         <div class="row g-4">
-          <!--recorro la lista de juegos-->
           @for (juego of juegos; track $index) {
             <div class="col-md-6 col-lg-3">
-              <!--responsive: col-md-6 ocupa media fila en medianas col-lg-3 un cuarto en grandes-->
-
-              <!--card del juego-->
-              <div class="card h-100 game-card" [class.disabled]="!juego.disponible">
+              <!--card del juego (sin estado ni botones)-->
+              <div class="card h-100 game-card">
                 <div class="card-body text-center">
-                  <!--icono-->
                   <i class="{{ juego.icono }} display-4 text-primary mb-3"></i>
-
-                  <!--nombre-->
                   <h5 class="card-title"><span class="text-light">{{ juego.nombre }}</span></h5>
-
-                  <!--descripcion-->
                   <p class="card-text text-muted">{{ juego.descripcion }}</p>
-
-                  <div class="mt-auto">
-                    <!--si no esta disponible, muestro sprint-->
-                    @if (!juego.disponible) {
-                      <span class="badge bg-secondary">
-                        Sprint {{ juego.sprint }}
-                      </span>
-                    }
-                    <!--si esta disponible, muestro boton jugar-->
-                    @if (juego.disponible) {
-                      <a routerLink="/juegos" class="btn btn-primary">
-                        Sala de juegos
-                      </a>
-                    }
-                  </div>
                 </div>
               </div>
             </div>
           }
         </div>
 
+        <!--unico boton para ir a la sala de juegos-->
+        <div class="text-center mt-4">
+          <a routerLink="/juegos" class="btn btn-primary btn-lg">
+            <i class="bi bi-controller me-2"></i>
+            Ir a la sala de juegos
+          </a>
+        </div>
       </div>
     </div>
   }

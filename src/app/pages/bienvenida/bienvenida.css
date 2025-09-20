@@ -4,17 +4,11 @@
   border: 2px solid transparent;
 }
 
-/*efecto hover solo en tarjetas habilitadas*/
-.game-card:hover:not(.disabled) {
+/*efecto hover en todas las tarjetas*/
+.game-card:hover {
   transform: translateY(-5px);
   border-color: var(--primary-color);
   box-shadow: 0 10px 25px rgba(111, 66, 193, 0.3);
-}
-
-/*tarjeta deshabilitada sin interaccion*/
-.game-card.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 /*titulos principales con sombra ligera*/
@@ -30,9 +24,7 @@ h1.display-4,
 }
 
 /*hero section define tamaño responsivo compartido*/
-.hero-section {
-  --hero-fs: clamp(2rem, 4vw + 0.5rem, 4rem);
-}
+.hero-section { --hero-fs: clamp(2rem, 4vw + 0.5rem, 4rem); }
 
 /*titulo hero usa la variable de tamaño*/
 .hero-title {
@@ -53,15 +45,9 @@ h1.display-4,
 }
 
 /*logo escala en relacion al tamaño del titulo*/
-.logo-block {
-  height: calc(var(--hero-fs) * 2.5);
-  width: auto;
-  display: block;
-}
+.logo-block { height: calc(var(--hero-fs) * 2.5); width: auto; display: block; }
 
 /*responsive en pantallas muy chicas ajusto paddings*/
 @media (max-width: 360px) {
-  .wordmark-pill {
-    padding: 0.3rem 0.8rem;
-  }
+  .wordmark-pill { padding: 0.3rem 0.8rem; }
 }
