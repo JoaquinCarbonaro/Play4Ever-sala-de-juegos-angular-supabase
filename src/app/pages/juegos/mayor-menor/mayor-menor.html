@@ -1,1 +1,111 @@
-<p>mayor-menor works!</p>
+<section class="mayor-menor">
+
+  <!--encabezado-->
+  <header class="mayor-menor__header">
+    <h1>Mayor o Menor</h1>
+    <p>Elegí si la próxima carta será mayor o menor antes de quedarte sin tiempo ni vidas.</p>
+  </header>
+
+  <!--pantalla de inicio-->
+  @if (status() === 'idle') {
+  <div class="mayor-menor__start">
+    <p>
+      Tenés seis vidas y tres minutos para sumar la mayor cantidad de aciertos posibles.
+    </p>
+
+    <!--boton para arrancar partida-->
+    <button class="mayor-menor__button" (click)="startGame()" [disabled]="loading()">
+      @if (loading()) {
+      <span>Cargando mazo...</span>
+      } @else {
+      <span>Comenzar partida</span>
+      }
+    </button>
+  </div>
+
+  <!--pantalla de juego-->
+  } @else if (status() === 'playing') {
+
+  <!--panel con datos de la partida-->
+  <div class="mayor-menor__panel">
+    <app-match-panel [time]="remainingTime()" [totalTime]="maxTimeSeconds" [remainingLives]="remainingLives()"
+      [totalLives]="maxLives" [hits]="hits()"></app-match-panel>
+  </div>
+
+  <!--zona de cartas-->
+  <div class="mayor-menor__board">
+
+    <!--carta actual-->
+    <div class="mayor-menor__card-slot">
+      <h2>Carta actual</h2>
+      @if (currentCard()) {
+      <img [src]="currentCard()?.image" alt="Carta actual" />
+      <p class="mayor-menor__card-text">{{ currentCardLabel() }}</p>
+      }
+    </div>
+
+    <!--carta siguiente-->
+    <div class="mayor-menor__card-slot mayor-menor__card-slot--next">
+      <h2>Próxima carta</h2>
+      <img src="https://deckofcardsapi.com/static/img/back.png" alt="Dorso de carta" />
+      <p class="mayor-menor__card-text">Se revelará después de elegir</p>
+      <!--informacion del mazo-->
+      <div class="mayor-menor__deck">
+        <p>Cartas restantes: {{ remainingCards() }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!--botones de accion-->
+  <div class="mayor-menor__actions">
+    <button class="mayor-menor__button" (click)="guess('higher')" [disabled]="loading()">
+      Mayor
+    </button>
+    <button class="mayor-menor__button" (click)="guess('lower')" [disabled]="loading()">
+      Menor
+    </button>
+  </div>
+
+  @if (feedback()) {
+  <!--mensaje con resultado de la ronda-->
+  <p class="mayor-menor__feedback">{{ feedback() }}</p>
+  }
+
+  } @else {
+  <!--resumen final-->
+  <div class="mayor-menor__summary">
+
+    <h2>Fin de la partida</h2>
+    @if (status() === 'finishedLives') {
+    <p>Te quedaste sin vidas disponibles.</p>
+    } @else {
+    <p>Se agotó el tiempo de la sesión.</p>
+    }
+
+    <!--lista de estadisticas-->
+    <ul>
+      <li>Aciertos: {{ hits() }}</li>
+      <li>Cartas jugadas: {{ totalRounds() }}</li>
+      <li>Vidas restantes: {{ remainingLives() }}</li>
+      <li>Tiempo jugado: {{ elapsedSeconds() }} segundos</li>
+    </ul>
+
+    <!--acciones del final-->
+    <div class="mayor-menor__summary-actions">
+
+      <!--boton jugar de nuevo-->
+      <button class="mayor-menor__button" (click)="startGame()" [disabled]="loading()">
+        @if (loading()) {
+        <span>Cargando mazo...</span>
+        } @else {
+        <span>Jugar de nuevo</span>
+        }
+      </button>
+
+      <!--enlace volver a sala-->
+      <a class="mayor-menor__link" routerLink="/juegos">Volver a la sala</a>
+    </div>
+  </div>
+  }
+
+</section>
