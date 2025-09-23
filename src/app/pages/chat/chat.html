@@ -1,9 +1,11 @@
 <section class="chat-full page-chat"> <!--ocupa el alto de la pantalla-->
-  <div class="container py-5"> <!--padding para no tapar navbar-->
+  <!--contenedor con padding para no tapar navbar-->
+  <div class="container py-5">
     <div class="row justify-content-center">
-      <div class="col-lg-8 chat-shell"> <!--columna que se estira-->
+      <!--columna que contiene el chat-->
+      <div class="col-lg-8 chat-shell">
 
-        <!--titulo-->
+        <!--encabezado con titulo y descripcion-->
         <div class="text-center mb-4">
           <h1 class="hero-title fw-bold text-primary mb-2">
             <i class="bi bi-chat-dots me-2"></i>
@@ -12,9 +14,9 @@
           <p class="lead text-light">Conecta con otros jugadores en tiempo real</p>
         </div>
 
-        <!--chat-->
+        <!--contenedor principal del chat-->
         <div class="chat-container shadow-lg">
-          <!--identidad-->
+          <!--muestra identidad del usuario actual-->
           <div class="p-3 border-bottom border-opacity-25">
             @if (usuarioActual()) {
               <p class="mb-0">
@@ -26,9 +28,16 @@
             }
           </div>
 
-          <!--lista de mensajes-->
+          <!--lista de mensajes recibidos-->
           <div class="chat-messages" #messagesScroll>
+            @if (!canalListo()) {
+              <!--mensaje de espera mientras se conecta-->
+              <p class="text-center text-light opacity-75 small py-3 mb-0">
+                Conectando con el chat en tiempo real...
+              </p>
+            }
             @for (msj of mensajes(); track msj.id) {
+              <!--cada mensaje con autor y fecha-->
               <div class="message" [class.own]="esPropio(msj)">
                 <div class="message-header">
                   <span class="message-author">{{ msj.usuario }}</span>
@@ -41,7 +50,7 @@
             }
           </div>
 
-          <!--input-->
+          <!--formulario para escribir y enviar mensajes-->
           <form class="chat-input" (ngSubmit)="enviar()">
             <div class="input-group">
               <input
@@ -53,7 +62,7 @@
                 required
                 minlength="1"
               />
-              <button class="btn btn-primary" type="submit">
+              <button class="btn btn-primary" type="submit" [disabled]="!canalListo()">
                 <i class="bi bi-send"></i>
               </button>
             </div>

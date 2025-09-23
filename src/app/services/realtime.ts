@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core' 
 import type { RealtimeChannel } from '@supabase/supabase-js'
 import Swal from 'sweetalert2'
 import { Supabase } from './supabase'
@@ -36,11 +36,11 @@ export class RealtimeService {
   //====================================================================
 
   //suscripcion a nuevos mensajes
-  suscribirse(onMensaje: (mensaje: Mensaje) => void) {
+  async suscribirse(onMensaje: (mensaje: Mensaje) => void): Promise<void> {
 
     //si habia un canal previo lo cierro y lo saco del cliente
     if (this.canal) {
-      this.supabase.removeChannel(this.canal) //cierra y limpia
+      await this.supabase.removeChannel(this.canal) //cierra y limpia
       this.canal = null
     }
 
@@ -53,11 +53,33 @@ export class RealtimeService {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'chat' },
-        payload => onMensaje(payload.new as Mensaje)
+        payload => onMensaje(payload.new as Mensaje) //cada nuevo mensaje recibido
       )
 
-    //activo la suscripcion
-    this.canal.subscribe(/* status => console.log('estado canal', status) */)
+    //activo la suscripcion y espero a que se confirme para asegurar eventos
+    await new Promise<void>((resolve, reject) => {
+      if (!this.canal) {
+        reject(new Error('No se pudo crear el canal de realtime'))
+        return
+      }
+
+      let settled = false
+
+      this.canal.subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          settled = true
+          resolve()
+          return
+        }
+
+        if (!settled && (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT')) {
+          settled = true
+          void this.supabase.removeChannel(this.canal as RealtimeChannel)
+          this.canal = null
+          reject(new Error(`No se pudo suscribir al chat: ${status}`))
+        }
+      })
+    })
   }
 
   //====================================================================
@@ -82,6 +104,7 @@ export class RealtimeService {
       user_id: userId,
     })
 
+    //control de error al enviar
     if (error) {
       await Swal.fire({
         icon: 'error',

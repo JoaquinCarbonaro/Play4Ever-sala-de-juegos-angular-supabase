@@ -25,6 +25,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewInit {
   //estado
   mensajes = signal<Mensaje[]>([]); //lista de mensajes
   mensaje = signal(''); //texto del input
+  canalListo = signal(false); //estado de la suscripcion realtime
 
   //usuario actual como signal reactiva
   usuarioActual = toSignal(this.auth.currentUser$, { initialValue: null });
@@ -32,13 +33,8 @@ export class Chat implements OnInit, OnDestroy, AfterViewInit {
   //====================================================================
 
   ngOnInit(): void {
-    //carga inicial de mensajes
-    void this.cargarMensajesIniciales();
-
-    //suscripcion realtime
-    this.realtime.suscribirse((nuevo) => {
-      this.integrarMensajes(nuevo); //agrego nuevo evitando duplicados
-    });
+    //inicio flujo de carga y suscripcion
+    void this.inicializarChat();
   }
 
   //====================================================================
@@ -52,6 +48,7 @@ export class Chat implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     //limpio suscripcion
+    this.canalListo.set(false);
     void this.realtime.desuscribirse();
   }
 
@@ -61,6 +58,17 @@ export class Chat implements OnInit, OnDestroy, AfterViewInit {
     //valido texto
     const texto = this.mensaje().trim();
     if (!texto) return;
+
+    //verifico que el canal realtime este activo
+    if (!this.canalListo()) {
+      await Swal.fire({
+        icon: 'info',
+        title: 'Conectando con el chat',
+        text: 'Esperá un instante y volvé a intentar enviar tu mensaje.',
+        confirmButtonText: 'Entendido',
+      });
+      return;
+    }
 
     //valido usuario logueado
     const user = this.usuarioActual();
@@ -89,9 +97,10 @@ export class Chat implements OnInit, OnDestroy, AfterViewInit {
     const alias = user.nombre || user.email || 'Usuario';
 
     try {
+      //envio mensaje al servicio realtime
       await this.realtime.enviarMensaje(texto, alias, user.id);
     } catch {
-      return; //el servicio ya informó el error
+      return; //el servicio ya informo el error
     }
 
     //reseteo input y bajo al final
@@ -128,6 +137,33 @@ export class Chat implements OnInit, OnDestroy, AfterViewInit {
     //traigo lista de mensajes ya guardados
     const data = await this.realtime.obtenerMensajes();
     this.integrarMensajes(data);
+  }
+
+  //=========================================
+
+  private async inicializarChat() {
+    //reinicio estado de disponibilidad
+    this.canalListo.set(false);
+
+    try {
+      //espero carga inicial y confirmacion de suscripcion simultaneamente
+      await Promise.all([
+        this.cargarMensajesIniciales(),
+        this.realtime.suscribirse((nuevo) => {
+          this.integrarMensajes(nuevo); //agrego nuevo evitando duplicados
+        }),
+      ]);
+
+      this.canalListo.set(true);
+    } catch {
+      //error al suscribirse
+      await Swal.fire({
+        icon: 'error',
+        title: 'Sin conexión en tiempo real',
+        text: 'No pudimos conectar con el chat. Recargá la página o intentá en unos segundos.',
+        confirmButtonText: 'Entendido',
+      });
+    }
   }
 
   //=========================================
