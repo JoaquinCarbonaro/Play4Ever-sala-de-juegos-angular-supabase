@@ -17,6 +17,12 @@
   text-align: center;
 }
 
+/*titulo principal*/
+.mayor-menor__header h1 {
+  margin: 0;
+  color: #ffd86b; /*igual que preguntados*/
+}
+
 /*texto del encabezado*/
 .mayor-menor__header p {
   margin-top: 0.5rem;
