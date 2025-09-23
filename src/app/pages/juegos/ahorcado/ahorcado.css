@@ -20,6 +20,13 @@
   gap: 0.75rem;
 }
 
+/*titulo principal*/
+.hangman__header h1 {
+  margin: 0;
+  color: #ffd86b; /*igual que preguntados*/
+}
+
+
 /*texto secundario*/
 .hangman__header p {
   color: #cfd4ff;

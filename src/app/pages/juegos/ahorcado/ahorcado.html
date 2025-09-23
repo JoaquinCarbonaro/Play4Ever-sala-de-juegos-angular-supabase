@@ -4,16 +4,15 @@
   <header class="hangman__header">
     <h1>Juego del Ahorcado</h1>
     <p>
-      Adiviná la mayor cantidad de palabras antes de quedarte sin vidas o sin tiempo. Elegí la categoría que más te
-      guste y usá el
-      teclado virtual para probar letras hasta adivinar la palabra oculta.
+      Adiviná la mayor cantidad de palabras antes de quedarte sin tiempo o vidas. Elegí la categoría que más te
+      guste y usá el teclado virtual para probar letras hasta adivinar la palabra oculta.
     </p>
   </header>
 
   <!--pantalla inicial-->
   @if (!hasSessionStarted()) {
   <div class="hangman__start hangman__card">
-    <p>Tenés seis vidas y tres minutos para sumar la mayor cantidad de aciertos posibles.</p>
+    <p>Tenés seis vidas y tres minutos para sumar la mayor cantidad de aciertos, en el menor tiempo posible.</p>
 
     @if (loadError()) {
     <div class="hangman__error">
