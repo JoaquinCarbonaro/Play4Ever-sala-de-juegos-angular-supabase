@@ -1,1 +1,171 @@
-<p>preguntados works!</p>
+<section class="trivia">
+
+  <!--encabezado principal con descripcion-->
+  <header class="trivia__header">
+    <h1>Preguntados</h1>
+    <p>
+      Elegí la categoría y la dificultad que más te guste, luego respondé {{ totalQuestions }} preguntas antes de que se agote el
+      tiempo o las vidas.
+    </p>
+  </header>
+
+  <!--pantalla de introduccion-->
+  @if (status() === 'intro') {
+  <section class="trivia__card trivia__intro">
+    <!--texto introductorio de reglas basicas-->
+    <p class="trivia__intro-text">
+      Tenés seis vidas y tres minutos para sumar la mayor cantidad de aciertos, en el menor tiempo posible.
+    </p>
+
+    <!--estado de carga de categorias-->
+    @if (groupsLoading()) {
+    <p class="trivia__message">Cargando categorías...</p>
+    } @else {
+
+    <!--error al cargar categorias-->
+    @if (groupsError()) {
+    <div class="trivia__alert">{{ groupsError() }}</div>
+    }
+
+    <!--selector de categoria-->
+    <div class="trivia__control">
+      <label for="category-select">Categoría</label>
+      <select id="category-select" class="trivia__select" (change)="onGroupChange($event)"
+        [disabled]="groups().length === 0">
+        <option value="" [selected]="selectedGroup() === ''">Elegí una categoría</option>
+        @for (group of groups(); track group.id) {
+        <option [value]="group.id" [selected]="group.id === selectedGroup()">
+          {{ group.label }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!--botones de dificultad-->
+    <div class="trivia__control">
+      <span>Dificultad</span>
+      <div class="trivia__difficulty">
+        @for (option of difficultyOptions; track option.value) {
+        <button class="trivia__difficulty-button"
+          [class.trivia__difficulty-button--active]="selectedDifficulty() === option.value"
+          (click)="chooseDifficulty(option.value)">
+          {{ option.label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    }
+
+    <!--errores al iniciar partida-->
+    @if (gameError()) {
+    <div class="trivia__alert">{{ gameError() }}</div>
+    }
+
+    <!--boton para comenzar-->
+    <button class="trivia__primary" (click)="startGame()"
+      [disabled]="selectedGroup() === '' || selectedDifficulty() === '' || groupsLoading()">
+      Comenzar partida
+    </button>
+  </section>
+  }
+
+  <!--pantalla de carga-->
+  @else if (status() === 'loading') {
+  <section class="trivia__card trivia__loading">
+    <p class="trivia__message">Preparando preguntas y traduciendo el contenido...</p>
+  </section>
+  }
+
+  <!--pantalla de juego-->
+  @else if (status() === 'playing') {
+  <section class="trivia__content">
+
+    <!--panel con datos de la partida-->
+    <div class="trivia__card">
+      <app-match-panel [time]="remainingTime()" [totalTime]="maxTimeSeconds"
+        [remainingLives]="remainingLives()" [totalLives]="maxLives" [hits]="hits()">
+      </app-match-panel>
+    </div>
+
+    <!--pregunta actual-->
+    <article class="trivia__card trivia__question">
+      <!--cabecera de pregunta y dificultad-->
+      <div class="trivia__question-header">
+        <p>Pregunta {{ currentIndex() + 1 }} de {{ totalQuestions }}</p>
+        <p>Dificultad {{ selectedDifficulty() === 'easy' ? 'Fácil' : selectedDifficulty() === 'medium' ? 'Media' : 'Difícil' }}</p>
+      </div>
+
+      <!--estado de carga de pregunta-->
+      @if (loadingQuestion()) {
+      <p class="trivia__message">Traduciendo y preparando la pregunta...</p>
+      } @else {
+      <!--texto de la pregunta-->
+      <h2 class="trivia__question-text">{{ questionText() }}</h2>
+
+      <!--opciones de respuesta-->
+      <div class="trivia__options">
+        @for (option of answerOptions(); track option.original) {
+        <button class="trivia__option" (click)="selectAnswer(option)"
+          [disabled]="showAnswer()" [class.trivia__option--selected]="selectedAnswer() === option.original"
+          [class.trivia__option--correct]="showAnswer() && option.original === currentCorrectAnswer()"
+          [class.trivia__option--wrong]="showAnswer() && option.original === selectedAnswer() && option.original !== currentCorrectAnswer()">
+          {{ option.display }}
+        </button>
+        }
+      </div>
+
+      <!--feedback de la respuesta-->
+      <p class="trivia__feedback" [class.trivia__feedback--visible]="showAnswer()">
+        {{ feedback() }}
+      </p>
+      <p class="trivia__feedback-detail" [class.trivia__feedback--visible]="showAnswer()">
+        {{ feedbackDetail() }}
+      </p>
+
+      <!--acciones de navegacion-->
+      <div class="trivia__actions">
+        <button class="trivia__secondary" (click)="nextQuestion()" [disabled]="!showAnswer()">
+          {{ nextButtonLabel() }}
+        </button>
+      </div>
+      }
+    </article>
+
+  </section>
+  }
+
+  <!--pantalla final-->
+  @else {
+  <section class="trivia__card trivia__summary">
+    <!--titulo del cierre-->
+    <h2>Fin de la partida</h2>
+
+    <!--motivo de finalizacion-->
+    @if (status() === 'finishedLives') {
+    <p>La partida terminó porque te quedaste sin vidas.</p>
+    } @else if (status() === 'finishedTime') {
+    <p>El tiempo se agotó antes de responder todas las preguntas.</p>
+    } @else {
+    <p>Respondiste todas las preguntas de la partida.</p>
+    }
+
+    <!--resumen de resultados-->
+    <ul class="trivia__list">
+      <li>Aciertos: {{ hits() }}</li>
+      <li>Vidas restantes: {{ remainingLives() }}</li>
+      <li>Tiempo jugado: {{ elapsedSeconds() }} segundos</li>
+    </ul>
+
+    <!--acciones finales-->
+    <div class="trivia__actions">
+      <button class="trivia__primary" (click)="startGame()" [disabled]="selectedGroup() === '' || selectedDifficulty() === ''">
+        Jugar de nuevo
+      </button>
+      <a class="trivia__secondary-link" routerLink="/juegos">Volver al menú principal</a>
+      <button class="trivia__link" (click)="resetGame()">Elegir otra configuración</button>
+    </div>
+  </section>
+  }
+
+</section>
