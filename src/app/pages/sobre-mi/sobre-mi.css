@@ -46,6 +46,13 @@
   border-color: var(--primary-color);
 }
 
+/*elimina las lineas divisorias en las reglas del juego*/
+.list-group-item {
+  border: none !important;
+  padding-left: 0; /*alinea mejor con el icono*/
+  background: transparent; /*asegura que no quede fondo distinto*/
+}
+
 /*responsive: ajustes opcionales en pantallas chicas*/
 @media (max-width: 767.98px) {
   /*achico imagen para que no ocupe todo el ancho*/

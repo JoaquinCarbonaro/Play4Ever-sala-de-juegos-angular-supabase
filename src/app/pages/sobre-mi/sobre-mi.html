@@ -1,29 +1,38 @@
+<!--contenedor principal con separacion superior-->
 <div class="container mt-5 pt-5">
+  <!--fila centrada-->
   <div class="row justify-content-center">
+    <!--columna principal-->
     <div class="col-lg-8">
       <!--estado cargando-->
       @if (loading) {
+        <!--bloque spinner-->
         <div class="text-center">
+          <!--spinner bootstrap-->
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Cargando...</span>
           </div>
+          <!--texto de carga-->
           <p class="mt-3">Cargando información desde GitHub...</p>
         </div>
       }
       @else if (!loading && error) {
         <!--estado error-->
         <div class="alert alert-warning text-center">
+          <!--icono advertencia-->
           <i class="bi bi-exclamation-triangle me-2"></i>
           No se pudo cargar la información de GitHub
         </div>
       }
       @else if (!loading && !error && githubData) {
-        <!--contenido principal-->
+        <!--contenido principal con card-->
         <div class="card shadow-lg">
+          <!--cuerpo de la card-->
           <div class="card-body p-5">
 
             <!--cabecera con avatar y datos-->
             <div class="row align-items-center mb-4">
+              <!--columna avatar centrado-->
               <div class="col-md-4 text-center">
                 <!--imagen de perfil-->
                 @if (githubData.avatar_url) {
@@ -34,18 +43,21 @@
                 }
               </div>
 
-              <!--datos principales-->
+              <!--columna datos principales-->
               <div class="col-md-8">
+                <!--nombre del usuario-->
                 <h1 class="text-primary mb-2">
                   {{ githubData.name }}
                 </h1>
 
+                <!--bio del usuario-->
                 <p class="lead text-muted mb-3">
                   {{ githubData.bio }}
                 </p>
 
                 <!--links y ubicacion-->
                 <div class="d-flex flex-wrap gap-2">
+                  <!--link al perfil de github-->
                   @if (githubData.html_url) {
                     <a
                       [href]="githubData.html_url"
@@ -57,6 +69,7 @@
                       GitHub
                     </a>
                   }
+                  <!--badge ubicacion-->
                   @if (githubData.location) {
                     <span class="badge bg-secondary">
                       <i class="bi bi-geo-alt me-1"></i>
@@ -67,8 +80,9 @@
               </div>
             </div>
 
-            <!--estadisticas-->
+            <!--estadisticas de perfil-->
             <div class="row text-center mb-4">
+              <!--tarjeta repos publicos-->
               <div class="col-md-4">
                 <div class="stat-card">
                   <i class="bi bi-code-slash display-6 text-primary"></i>
@@ -77,6 +91,7 @@
                 </div>
               </div>
 
+              <!--tarjeta seguidores-->
               <div class="col-md-4">
                 <div class="stat-card">
                   <i class="bi bi-people display-6 text-primary"></i>
@@ -85,6 +100,7 @@
                 </div>
               </div>
 
+              <!--tarjeta siguiendo-->
               <div class="col-md-4">
                 <div class="stat-card">
                   <i class="bi bi-heart display-6 text-primary"></i>
@@ -94,67 +110,119 @@
               </div>
             </div>
 
-            <!--sobre mi-->
+            <!--fecha miembro de github-->
+            @if (githubData.created_at) {
+              <!--bloque fecha centrado-->
+              <div class="text-center mt-4 mb-5 pb-2">
+                <!--texto fecha formateada-->
+                <p class="text-muted mb-0">
+                  <i class="bi bi-calendar me-2"></i>
+                  Miembro de GitHub desde {{ githubData.created_at | date:'MMMM yyyy' }}
+                </p>
+              </div>
+            }
+
+            <!--seccion juego propio-->
             <div class="row">
               <div class="col-12">
-                <!--descripcion breve-->
-                <h3 class="text-center text-primary mb-3">
-                  <i class="bi bi-person-circle me-2"></i>
-                  Sobre Mí
-                </h3>
-
-                <p class="lead text-muted mb-3">
-                  Soy estudiante de la Tecnicatura en Sistemas en la UTN Facultad Regional Avellaneda,
-                  apasionado por el desarrollo de software y las tecnologías
-                </p>
-
-                <!--juego propio-->
+                <!--titulo juego propio-->
                 <h3 class="text-center text-primary mb-3">
                   <i class="bi bi-person-circle me-2"></i>
                   Juego propio
                 </h3>
 
+                <!--subtitulo nombre del juego-->
                 <h4 class="text-primary mb-3">
                   <i class="bi bi-controller me-2"></i>
                   <span class="text-light">Connect 4</span>
                 </h4>
 
+                <!--descripcion del juego-->
                 <p class="lead text-muted mb-3">
                   También conocido como "4 en línea", lo elegí porque es un juego clásico, fácil de entender y muy útil para practicar lógica, manejo de
                   estados, detección de patrones en una grilla y posible integración de una IA sencilla a futuro
                 </p>
 
-                <!--como se juega-->
+                <!--subtitulo como se juega-->
                 <h4 class="text-primary mb-3">
                   <i class="bi bi-joystick me-2"></i>
                   <span class="text-light">Cómo se juega</span>
                 </h4>
 
+                <!--reglas basicas del tablero-->
                 <p class="lead text-muted mb-3">
                   El tablero es de 7 columnas por 6 filas. Dos jugadores tiran fichas por turnos en cualquiera de las columnas;
                   la ficha cae hasta la posición libre más baja. Gana quien conecte 4 fichas seguidas en línea horizontal,
                   vertical o diagonal. Si se llena el tablero sin una conexión válida, es empate
                 </p>
 
-                <!--objetivo-->
+                <!--subtitulo objetivo-->
                 <h4 class="text-primary mb-3">
                   <i class="bi bi-bullseye me-2"></i>
                   <span class="text-light">Objetivo del jugador</span>
                 </h4>
 
+                <!--objetivo del jugador-->
                 <p class="lead text-muted mb-3">
                   Colocar estratégicamente las fichas para armar una línea de 4 y, al mismo tiempo, bloquear los intentos del rival
                 </p>
 
-                <!--fecha miembro de github-->
-                @if (githubData.created_at) {
-                  <div class="text-center mt-4">
-                    <p class="text-muted">
-                      <i class="bi bi-calendar me-2"></i>
-                      Miembro de GitHub desde {{ githubData.created_at | date:'MMMM yyyy' }}
-                    </p>
-                  </div>
-                }
+                <!--subtitulo reglas y puntaje-->
+                <h4 class="text-primary mb-3">
+                  <i class="bi bi-list-check me-2"></i>
+                  <span class="text-light">Reglas y sistema de puntuación</span>
+                </h4>
+
+                <!--lista de reglas-->
+                <ul class="list-group list-group-flush mb-4">
+                  <!--item rondas por sesion-->
+                  <li class="list-group-item bg-transparent text-muted">
+                    <span class="me-2">🧠</span>
+                    <strong>Rondas por sesión:</strong> cada sesión tiene <strong>3 rondas</strong>.
+                  </li>
+
+                  <!--item puntos por resultado-->
+                  <li class="list-group-item bg-transparent text-muted">
+                    <span class="me-2">🏆</span>
+                    <strong>Puntos por resultado:</strong>
+                    <ul class="mt-2 mb-0">
+                      <li class="mb-1">Ganar: <strong>+10 puntos</strong> y <strong>+1 vida</strong>.</li>
+                      <li class="mb-1">Perder: <strong>–2 vidas</strong>.</li>
+                      <li class="mb-1">Empate (tablero lleno sin 4 en línea): <strong>0 puntos</strong>. Se pueden sumar bonos por fichas (ver abajo).</li>
+                    </ul>
+                  </li>
+
+                  <!--item bonos por fichas-->
+                  <li class="list-group-item bg-transparent text-muted">
+                    <span class="me-2">💠</span>
+                    <strong>Bonos por fichas propias:</strong> si el jugador logra <strong>3 fichas consecutivas</strong>, suma 
+                    <strong>+5 puntos</strong>. Aún perdiendo, puede sumar por esta condición.
+                  </li>
+
+                  <!--item sistema de vidas-->
+                  <li class="list-group-item bg-transparent text-muted">
+                    <span class="me-2">❤️</span>
+                    <strong>Sistema de vidas:</strong> se comienza con <strong>6 vidas</strong>.
+                    <ul class="mt-2 mb-0">
+                      <li class="mb-1">Perder una partida: <strong>–2 vidas</strong>.</li>
+                      <li class="mb-1">Si el rival logra 3 en línea: <strong>–1 vida</strong>.</li>
+                    </ul>
+                  </li>
+
+                  <!--item fin de sesion-->
+                  <li class="list-group-item bg-transparent text-muted">
+                    <span class="me-2">⏱️</span>
+                    <strong>Fin de sesión:</strong> termina cuando se juegan las 3 rondas, o te quedás sin vidas,
+                    o se acaba el <strong>tiempo global (3 minutos)</strong>.
+                  </li>
+                </ul>
+
+                <!--nota de implementacion para resultados-->
+                <div class="alert alert-info mb-0">
+                  <i class="bi bi-database me-2"></i>
+                  Este juego guarda al finalizar: <strong>usuario</strong> y <strong>desempeño</strong> (puntaje/tiempo/vidas), para usarlo en la página de resultados.
+                </div>
+
               </div>
             </div>
 
