@@ -1,1 +1,136 @@
-<p>connect4 works!</p>
+<section class="connect4">
+
+  <!--encabezado-->
+  <header class="connect4__header">
+    <h1>Connect 4</h1>
+    <p>Conectá cuatro fichas en línea antes de que se acaben el tiempo o las vidas.</p>
+  </header>
+
+  <!--pantalla inicial-->
+  @if (status() === 'intro') {
+  <div class="connect4__intro">
+    <!--lead de rondas-->
+    <p class="connect4__lead">
+        Jugás una sesión de <strong>3 rondas</strong>.
+    </p>
+
+    <!--lista de reglas-->
+    <ul class="connect4__rules">
+        <li><span class="t"><strong>Reglas:</strong></span></li>
+        <li><span class="i">🏆</span><span class="t"><strong>Ganar la ronda:</strong>&nbsp;+10 puntos y +1 vida.</span></li>
+        <li><span class="i">❌</span><span class="t"><strong>Perder la ronda:</strong>&nbsp;−2 vidas.</span></li>
+        <li><span class="i">➖</span><span class="t"><strong>Empate (tablero lleno):</strong>&nbsp;se mantiene todo igual.</span></li>
+        <li><span class="i">💠</span><span class="t"><strong>Tres fichas en línea propias:</strong>&nbsp;+5 puntos.</span></li>
+        <li><span class="i">⚠️</span><span class="t"><strong>El rival hace tres fichas en línea:</strong>&nbsp;−1 vida.</span></li>
+        <li><span class="i">🧠</span><span class="t"><strong>El juego termina:</strong>&nbsp;luego de las 3 partidas, quedarte sin vidas o acabarse el tiempo global.</span></li>
+    </ul>
+
+    <!--boton comenzar-->
+    <button class="connect4__button" (click)="startSession()">Comenzar</button>
+    
+  </div>
+
+  <!--pantalla de transicion-->
+  } @else if (status() === 'loading') {
+  <div class="connect4__loading">
+    <!--spinner de carga-->
+    <div class="connect4__spinner"></div>
+    <p>Preparando la siguiente ronda...</p>
+  </div>
+
+  <!--pantalla de juego activa-->
+  } @else if (status() === 'playing') {
+
+  <!--panel de informacion-->
+  <div class="connect4__panel">
+    <app-match-panel [time]="timeLeft()" [totalTime]="totalTime" [remainingLives]="lives()" [totalLives]="totalLives"
+      [hits]="score()"></app-match-panel>
+  </div>
+
+  <!--tablero completo-->
+  <div class="connect4__board">
+
+    <!--cuadricula principal-->
+    <div class="connect4__grid">
+      @for (row of board(); track $index; let rowIndex = $index) {
+      <!--fila de celdas-->
+      <div class="connect4__row">
+        @for (cell of row; track $index; let columnIndex = $index) {
+        @let columnPlayable = canPlayColumn(columnIndex);
+        <!--celda interactiva-->
+        <div class="connect4__cell" role="button"
+          [attr.tabindex]="columnPlayable ? 0 : -1"
+          [attr.aria-disabled]="!columnPlayable ? true : null"
+          [ngClass]="cellClasses(rowIndex, columnIndex, columnPlayable, cell)"
+          (click)="playHumanMove(columnIndex)"
+          (keydown.enter)="playHumanMove(columnIndex)"
+          (keydown.space)="playHumanMove(columnIndex)">
+
+          <!--chip interno con estilos dinamicos-->
+          <span class="connect4__chip" [ngClass]="chipClasses(rowIndex, columnIndex, cell)"
+            [ngStyle]="chipStyles(rowIndex)"></span>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!--mensajes de estado-->
+  <div class="connect4__messages">
+    <!--mensaje principal-->
+    <p class="connect4__main">{{ mainMessage() }}</p>
+    <!--mensaje secundario-->
+    <p class="connect4__detail">{{ detailMessage() }}</p>
+  </div>
+
+  <!--resumen de ronda si corresponde-->
+  @if (roundOutcome(); as outcome) {
+  <div class="connect4__round-summary">
+    <!--titulo del resultado-->
+    <h3>{{ outcome.title }}</h3>
+    <!--detalle del resultado-->
+    <p>{{ outcome.detail }}</p>
+    <!--metricas de la ronda-->
+    <ul>
+      <li>Aciertos totales: {{ score() }}</li>
+      <li>Vidas restantes: {{ lives() }} / {{ totalLives }}</li>
+      <li>Ronda actual: {{ rounds() }} / {{ totalRounds }}</li>
+    </ul>
+    <!--accion siguiente-->
+    <button class="connect4__button" (click)="confirmRoundOutcome()" [disabled]="processing()">
+      {{ outcome.action === 'next' ? 'Siguiente partida' : 'Ver resultados' }}
+    </button>
+  </div>
+  }
+
+  <!--pantallas finales-->
+  } @else {
+  <div class="connect4__summary">
+    <!--titulo segun motivo de fin-->
+    @if (status() === 'finishedLives') {
+    <h2>Te quedaste sin vidas.</h2>
+    } @else if (status() === 'finishedTime') {
+    <h2>Se terminó el tiempo.</h2>
+    } @else {
+    <h2>Completaste las tres rondas.</h2>
+    }
+
+    <!--resumen final de la sesion-->
+    <ul>
+      <li>Aciertos totales: {{ summary().score }}</li>
+      <li>Rondas completadas: {{ summary().rounds }}</li>
+      <li>Victorias: {{ summary().wins }}</li>
+      <li>Vidas restantes: {{ summary().lives }}</li>
+      <li>Tiempo jugado: {{ totalTime - summary().timeLeft }} segundos</li>
+    </ul>
+
+    <!--acciones finales-->
+    <div class="connect4__summary-actions">
+      <button class="connect4__button" (click)="startSession()">Jugar de nuevo</button>
+      <a class="connect4__link" routerLink="/juegos">Volver a la sala</a>
+    </div>
+  </div>
+  }
+
+</section>
