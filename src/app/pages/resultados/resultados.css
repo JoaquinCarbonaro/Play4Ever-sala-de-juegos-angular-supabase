@@ -1,0 +1,142 @@
+/*fondo degradado general*/
+html, body{
+  min-height:100%;
+  background: linear-gradient(135deg, #4a2aa6 0%, #612a9e 35%, #2b174f 100%) fixed;
+}
+
+/*wrapper de la pagina de resultados*/
+.resultados-page{
+  min-height: 100vh;
+  padding: 4rem 0 6rem;        /*espacio vertical*/
+  background: transparent;     /*no tapar el degradado del body*/
+}
+
+/*contenedor de vidrio que envuelve resultados*/
+.resultados-page > .container{
+  background: rgba(10, 12, 26, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 30px 80px rgba(8, 10, 20, 0.55);
+  padding: 2rem 1.25rem;       /*padding interno uniforme*/
+}
+
+/*texto descriptivo bajo el titulo*/
+.resultados-page .lead{color:#cfd4ff;}
+
+/*titulo principal hero*/
+.hero-title{
+  font-size: clamp(2rem, 4vw + 0.5rem, 4rem);
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(0,0,0,.5);
+}
+
+/*cards y tablas*/
+.results-card{
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  box-shadow: 0 25px 60px rgba(8,10,20,.6);
+}
+
+/*header de cada card*/
+.results-card .card-header{
+  background: rgba(111,66,193,.2);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  padding: 1rem 1.5rem;
+}
+
+/*cuerpo de cada card*/
+.results-card .card-body{
+  background: rgba(20,24,45,.55);
+}
+
+/*tabla oscura base transparente*/
+.table-dark{ --bs-table-bg: transparent; }
+
+/*encabezados de tabla*/
+.table-dark th{
+  border-color: rgba(255,255,255,.2);
+  background: rgba(0,0,0,.3);
+  color: #e9ecef;
+  font-weight: 600;
+}
+
+/*celdas de tabla*/
+.table-dark td{
+  border-color: rgba(255,255,255,.1);
+  color: #e9ecef;
+}
+
+/*hover por fila*/
+.table-hover tbody tr:hover{
+  background: rgba(255,255,255,.1);
+}
+
+/*colores para top 3*/
+.table-warning{ --bs-table-bg: rgba(255,193,7,.2); }      /*1ro*/
+.table-secondary{ --bs-table-bg: rgba(108,117,125,.2); }  /*2do*/
+.table-info{ --bs-table-bg: rgba(13,202,240,.2); }        /*3ro*/
+
+/*forzar legibilidad de texto e iconos en top 3*/
+.table-dark tbody tr.table-warning > *,
+.table-dark tbody tr.table-secondary > *,
+.table-dark tbody tr.table-info > *{ color:#f8f9fa !important; }
+
+/*hover especifico para top 3*/
+.table-dark.table-hover tbody tr.table-warning:hover{ background-color: rgba(255,193,7,.28) !important; }
+.table-dark.table-hover tbody tr.table-secondary:hover{ background-color: rgba(108,117,125,.28) !important; }
+.table-dark.table-hover tbody tr.table-info:hover{ background-color: rgba(13,202,240,.28) !important; }
+
+/*iconos del podio siempre claros*/
+.table-dark tbody tr.table-warning i,
+.table-dark tbody tr.table-secondary i,
+.table-dark tbody tr.table-info i{ color:#f8f9fa !important; }
+
+/*dorado reutilizable*/
+.text-gold{ color:#ffd86b!important; }
+
+/*titulos e iconos de card en dorado*/
+.results-card .card-header .text-primary{ color:#ffd86b!important; }
+.results-card .card-header i{ color:#ffd86b!important; }
+
+/*top 3 siempre legibles (incluye hover y variables bs)*/
+.table-dark tbody tr.table-warning,
+.table-dark tbody tr.table-warning:hover{
+  --bs-table-color:#f8f9fa;
+  --bs-table-hover-color:#f8f9fa;
+  --bs-table-hover-bg: rgba(255,193,7,.28);
+}
+.table-dark tbody tr.table-secondary,
+.table-dark tbody tr.table-secondary:hover{
+  --bs-table-color:#f8f9fa;
+  --bs-table-hover-color:#f8f9fa;
+  --bs-table-hover-bg: rgba(108,117,125,.28);
+}
+.table-dark tbody tr.table-info,
+.table-dark tbody tr.table-info:hover{
+  --bs-table-color:#f8f9fa;
+  --bs-table-hover-color:#f8f9fa;
+  --bs-table-hover-bg: rgba(13,202,240,.28);
+}
+
+/*refuerzo final por si algun tema pisa variables*/
+.table-dark.table-hover tbody tr.table-warning:hover > *,
+.table-dark.table-hover tbody tr.table-secondary:hover > *,
+.table-dark.table-hover tbody tr.table-info:hover > *{
+  color:#f8f9fa !important;
+}
+
+/*responsive: tablets y abajo*/
+@media (max-width: 992px){
+  .resultados-page > .container{ padding: 1.5rem 1rem; }
+}
+
+/*responsive: mobile chico*/
+@media (max-width: 576px){
+  .resultados-page{ padding: 3rem 0 5rem; }
+  .results-card .card-header{ padding: .8rem 1rem; }
+}

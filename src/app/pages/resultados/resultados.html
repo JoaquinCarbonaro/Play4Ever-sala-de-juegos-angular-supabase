@@ -1,1 +1,381 @@
-<p>resultados works!</p>
+<!--fondo principal resultados-->
+<div class="resultados-page">
+  <!--contenedor principal-->
+  <div class="container mt-5 pt-5">
+
+  <!--encabezado principal-->
+  <div class="row mb-5">
+    <div class="col-12 text-center">
+      <!--titulo de la page-->
+      <h1 class="hero-title fw-bold text-primary mb-2">
+        <i class="bi bi-trophy me-2"></i>
+        Tabla de Resultados
+      </h1>
+      <!--descripcion corta-->
+      <p class="lead text-light mb-0">Compará el desempeño de todos los juegos</p>
+    </div>
+  </div>
+
+  <!--estado cargando-->
+  @if (cargando) {
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6">
+        <!--card de carga-->
+        <div class="results-card text-center py-4">
+          <div class="spinner-border text-primary mb-3" role="status"></div>
+          <p class="text-light mb-0">Cargando resultados...</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!--estado error-->
+  @if (!cargando && errorMensaje) {
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8">
+        <!--alerta error global-->
+        <div class="alert alert-danger text-center" role="alert">
+          {{ errorMensaje }}
+        </div>
+      </div>
+    </div>
+  }
+
+  <!--contenido principal-->
+  @if (!cargando && !errorMensaje) {
+    <!--bloque ranking general-->
+    <div class="row g-4 mb-4">
+      <div class="col-12">
+        <div class="results-card">
+          <!--encabezado de card-->
+          <div class="card-header">
+            <h4 class="text-primary mb-0">
+              <i class="bi bi-collection me-2"></i>
+              Ranking General
+            </h4>
+          </div>
+          <!--tabla ranking general-->
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Aciertos Totales</th>
+                    <th>Tiempo Total</th>
+                    <th>Vidas Restantes</th>
+                    <th>Última Partida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--sin datos de ranking-->
+                  @if (rankingGeneral.length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center text-muted py-4">
+                        Todavía no hay jugadores con partidas en los cuatro juegos.
+                      </td>
+                    </tr>
+                  } @else {
+                    <!--filas de ranking general-->
+                    @for (resultado of rankingGeneral; track resultado.id) {
+
+                      <tr [class.table-warning]="resultado.posicion === 1"
+                          [class.table-secondary]="resultado.posicion === 2"
+                          [class.table-info]="resultado.posicion === 3">
+                        <td>
+                          <!--iconos para top 3-->
+                          @if (resultado.posicion === 1) {
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                          } @else if (resultado.posicion === 2) {
+                            <i class="bi bi-award-fill text-secondary"></i>
+                          } @else if (resultado.posicion === 3) {
+                            <i class="bi bi-award-fill text-info"></i>
+                          } @else {
+                            {{ resultado.posicion }}
+                          }
+                        </td>
+                        <!--datos de jugador-->
+                        <td>{{ resultado.usuario }}</td>
+                        <td><strong>{{ resultado.aciertosTotales }}</strong></td>
+                        <td>{{ resultado.tiempoTotal }} <small class="text-muted">seg</small></td>
+                        <td>{{ resultado.vidasRestantes }}</td>
+                        <!--fecha formateada-->
+                        <td>{{ resultado.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--bloque de tablas por juego-->
+    <div class="row g-4">
+      <!--tabla ahorcado-->
+      <div class="col-lg-6">
+        <div class="results-card">
+          <div class="card-header">
+            <h4 class="text-primary mb-0">
+              <i class="bi bi-alphabet me-2"></i>
+              Ahorcado
+            </h4>
+          </div>
+          <!--tabla ahorcado contenido-->
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Aciertos</th>
+                    <th>Tiempo</th>
+                    <th>Vidas</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--sin resultados ahorcado-->
+                  @if (resultadosAhorcado.length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center text-muted py-4">
+                        Todavía no hay partidas registradas en Ahorcado.
+                      </td>
+                    </tr>
+                  } @else {
+                    <!--filas resultados ahorcado-->
+                    @for (resultado of resultadosAhorcado; track resultado.id) {
+
+                      <tr [class.table-warning]="resultado.posicion === 1"
+                          [class.table-secondary]="resultado.posicion === 2"
+                          [class.table-info]="resultado.posicion === 3">
+                        <td>
+                          <!--iconos top 3 ahorcado-->
+                          @if (resultado.posicion === 1) {
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                          } @else if (resultado.posicion === 2) {
+                            <i class="bi bi-award-fill text-secondary"></i>
+                          } @else if (resultado.posicion === 3) {
+                            <i class="bi bi-award-fill text-info"></i>
+                          } @else {
+                            {{ resultado.posicion }}
+                          }
+                        </td>
+                        <td>{{ resultado.usuario }}</td>
+                        <td><strong>{{ resultado.aciertosTotales }}</strong></td>
+                        <td>{{ resultado.tiempoTotal }} <small class="text-muted">seg</small></td>
+                        <td>{{ resultado.vidasRestantes }}</td>
+                        <td>{{ resultado.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--tabla mayor menor-->
+      <div class="col-lg-6">
+        <div class="results-card">
+          <div class="card-header">
+            <h4 class="text-primary mb-0">
+              <i class="bi bi-suit-spade me-2"></i>
+              Mayor o Menor
+            </h4>
+          </div>
+          <!--tabla mayor menor contenido-->
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Aciertos</th>
+                    <th>Tiempo</th>
+                    <th>Vidas</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--sin resultados mayor menor-->
+                  @if (resultadosMayorMenor.length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center text-muted py-4">
+                        Todavía no hay partidas registradas en Mayor o Menor.
+                      </td>
+                    </tr>
+                  } @else {
+                    <!--filas resultados mayor menor-->
+                    @for (resultado of resultadosMayorMenor; track resultado.id) {
+
+                      <tr [class.table-warning]="resultado.posicion === 1"
+                          [class.table-secondary]="resultado.posicion === 2"
+                          [class.table-info]="resultado.posicion === 3">
+                        <td>
+                          <!--iconos top 3 mayor menor-->
+                          @if (resultado.posicion === 1) {
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                          } @else if (resultado.posicion === 2) {
+                            <i class="bi bi-award-fill text-secondary"></i>
+                          } @else if (resultado.posicion === 3) {
+                            <i class="bi bi-award-fill text-info"></i>
+                          } @else {
+                            {{ resultado.posicion }}
+                          }
+                        </td>
+                        <td>{{ resultado.usuario }}</td>
+                        <td><strong>{{ resultado.aciertosTotales }}</strong></td>
+                        <td>{{ resultado.tiempoTotal }} <small class="text-muted">seg</small></td>
+                        <td>{{ resultado.vidasRestantes }}</td>
+                        <td>{{ resultado.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--tabla preguntados-->
+      <div class="col-lg-6">
+        <div class="results-card">
+          <div class="card-header">
+            <h4 class="text-primary mb-0">
+              <i class="bi bi-question-circle me-2"></i>
+              Preguntados
+            </h4>
+          </div>
+          <!--tabla preguntados contenido-->
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Aciertos</th>
+                    <th>Tiempo</th>
+                    <th>Vidas</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--sin resultados preguntados-->
+                  @if (resultadosPreguntados.length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center text-muted py-4">
+                        Todavía no hay partidas registradas en Preguntados.
+                      </td>
+                    </tr>
+                  } @else {
+                    <!--filas resultados preguntados-->
+                    @for (resultado of resultadosPreguntados; track resultado.id) {
+
+                      <tr [class.table-warning]="resultado.posicion === 1"
+                          [class.table-secondary]="resultado.posicion === 2"
+                          [class.table-info]="resultado.posicion === 3">
+                        <td>
+                          <!--iconos top 3 preguntados-->
+                          @if (resultado.posicion === 1) {
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                          } @else if (resultado.posicion === 2) {
+                            <i class="bi bi-award-fill text-secondary"></i>
+                          } @else if (resultado.posicion === 3) {
+                            <i class="bi bi-award-fill text-info"></i>
+                          } @else {
+                            {{ resultado.posicion }}
+                          }
+                        </td>
+                        <td>{{ resultado.usuario }}</td>
+                        <td><strong>{{ resultado.aciertosTotales }}</strong></td>
+                        <td>{{ resultado.tiempoTotal }} <small class="text-muted">seg</small></td>
+                        <td>{{ resultado.vidasRestantes }}</td>
+                        <td>{{ resultado.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--tabla connect4-->
+      <div class="col-lg-6">
+        <div class="results-card">
+          <div class="card-header">
+            <h4 class="text-primary mb-0">
+              <i class="bi bi-grid-3x3 me-2"></i>
+              Connect 4
+            </h4>
+          </div>
+          <!--tabla connect4 contenido-->
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Usuario</th>
+                    <th>Aciertos</th>
+                    <th>Tiempo</th>
+                    <th>Vidas</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--sin resultados connect4-->
+                  @if (resultadosConnect4.length === 0) {
+                    <tr>
+                      <td colspan="6" class="text-center text-muted py-4">
+                        Todavía no hay partidas registradas en Connect 4.
+                      </td>
+                    </tr>
+                  } @else {
+                    <!--filas resultados connect4-->
+                    @for (resultado of resultadosConnect4; track resultado.id) {
+
+                      <tr [class.table-warning]="resultado.posicion === 1"
+                          [class.table-secondary]="resultado.posicion === 2"
+                          [class.table-info]="resultado.posicion === 3">
+                        <td>
+                          <!--iconos top 3 connect4-->
+                          @if (resultado.posicion === 1) {
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                          } @else if (resultado.posicion === 2) {
+                            <i class="bi bi-award-fill text-secondary"></i>
+                          } @else if (resultado.posicion === 3) {
+                            <i class="bi bi-award-fill text-info"></i>
+                          } @else {
+                            {{ resultado.posicion }}
+                          }
+                        </td>
+                        <td>{{ resultado.usuario }}</td>
+                        <td><strong>{{ resultado.aciertosTotales }}</strong></td>
+                        <td>{{ resultado.tiempoTotal }} <small class="text-muted">seg</small></td>
+                        <td>{{ resultado.vidasRestantes }}</td>
+                        <td>{{ resultado.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  </div>
+
+</div>
