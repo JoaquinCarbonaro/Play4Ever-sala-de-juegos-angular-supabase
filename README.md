@@ -8,7 +8,11 @@ Este proyecto fue realizado como **Trabajo Práctico N.º 1 de la materia Progra
 
 ## 🚀 Demo
 
-La aplicación fue desplegada originalmente en Vercel, pero actualmente la demo puede no estar completamente funcional porque requiere servicios externos activos.
+La aplicación se encuentra desplegada en Vercel y puede visualizarse desde el siguiente enlace:
+
+https://joaquin-carbonaro-tp-1-prog-4-2025.vercel.app
+
+> Nota: algunas funcionalidades pueden no estar disponibles actualmente porque dependen de servicios externos o de la base de datos configurada para el trabajo práctico. De todas formas, el deploy permite visualizar la interfaz y la estructura general de la aplicación.
 
 Repositorio público:
 
@@ -24,6 +28,8 @@ https://github.com/JoaquinCarbonaro/Play4Ever-sala-de-juegos-angular-supabase
 - Guardado de datos adicionales del perfil de usuario, como nombre, apellido y edad.
 - Persistencia de sesión con `sessionStorage`.
 - Control de acceso para usuarios logueados.
+
+---
 
 ### 🕹️ Juegos incluidos
 
