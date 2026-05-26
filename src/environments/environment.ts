@@ -3,7 +3,7 @@ export const environment = {
   //indica si estamos en produccion o no
   production: true,
   //url de supabase para la base de datos
-  supabaseUrl: 'https://hzaovdaagjazokgunvfe.supabase.co',
+  supabaseUrl: 'SUPABASE_URL',
   //clave publica de supabase
   supabaseKey:
     'SUPABASE_ANON_KEY_PUBLICA', // anon key publica
